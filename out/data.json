@@ -1,0 +1,456 @@
+{
+    "project": {},
+    "files": {
+        "lib/bundled-commands/Sync.js": {
+            "name": "lib/bundled-commands/Sync.js",
+            "modules": {},
+            "classes": {
+                "Sync": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "lib/bundled-commands/Tasks.js": {
+            "name": "lib/bundled-commands/Tasks.js",
+            "modules": {},
+            "classes": {
+                "Tasks": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "lib/commands/generate/controller.js": {
+            "name": "lib/commands/generate/controller.js",
+            "modules": {},
+            "classes": {
+                "Controller": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "lib/commands/new.js": {
+            "name": "lib/commands/new.js",
+            "modules": {},
+            "classes": {
+                "New": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "lib/util/Helpers.js": {
+            "name": "lib/util/Helpers.js",
+            "modules": {},
+            "classes": {
+                "Helpers": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {},
+    "classes": {
+        "Sync": {
+            "name": "Sync",
+            "shortname": "Sync",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "lib/bundled-commands/Sync.js",
+            "line": 26,
+            "description": "Class to sync bundled / local hooks , helps in registering hooks in short",
+            "is_constructor": 1
+        },
+        "Tasks": {
+            "name": "Tasks",
+            "shortname": "Tasks",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "lib/bundled-commands/Tasks.js",
+            "line": 22,
+            "description": "Class to initiate watcher and run build tasks using ng-task-runner",
+            "is_constructor": 1
+        },
+        "Controller": {
+            "name": "Controller",
+            "shortname": "Controller",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "lib/commands/generate/controller.js",
+            "line": 18,
+            "description": "Class to fetch and run hooks registered for generate:controller process/command",
+            "is_constructor": 1
+        },
+        "New": {
+            "name": "New",
+            "shortname": "New",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "lib/commands/new.js",
+            "line": 18,
+            "description": "Class to fetch and run hooks registered for new process/command",
+            "is_constructor": 1
+        },
+        "Helpers": {
+            "name": "Helpers",
+            "shortname": "Helpers",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "lib/util/Helpers.js",
+            "line": 28,
+            "description": "Helper methods to perform different tasks",
+            "is_constructor": 1
+        }
+    },
+    "classitems": [
+        {
+            "file": "lib/bundled-commands/Sync.js",
+            "line": 35,
+            "itemtype": "property",
+            "name": "content_path",
+            "type": "{String} path to content directory to save bundled and app specific hooks",
+            "class": "Sync"
+        },
+        {
+            "file": "lib/bundled-commands/Sync.js",
+            "line": 41,
+            "itemtype": "property",
+            "name": "project_path",
+            "type": "{String} path to ngCli root",
+            "class": "Sync"
+        },
+        {
+            "file": "lib/bundled-commands/Sync.js",
+            "line": 49,
+            "itemtype": "method",
+            "name": "init",
+            "params": [
+                {
+                    "name": "type",
+                    "description": "bundled or nothing",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "Returns promise object with config(if not bundled) and project root",
+                "type": "Promise"
+            },
+            "class": "Sync"
+        },
+        {
+            "file": "lib/bundled-commands/Sync.js",
+            "line": 77,
+            "itemtype": "method",
+            "name": "fetchModules",
+            "params": [
+                {
+                    "name": "config",
+                    "description": "config object to obtain project root and scan npm modules for ng hooks",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "Returns promise with list of ng hooks",
+                "type": "Promise"
+            },
+            "class": "Sync"
+        },
+        {
+            "file": "lib/bundled-commands/Sync.js",
+            "line": 105,
+            "itemtype": "method",
+            "name": "registerModules",
+            "params": [
+                {
+                    "name": "modules",
+                    "description": "Hooks object to register standalone and dependent hooks as local js modules",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "Returns promise with success or error on saving hooks",
+                "type": "String"
+            },
+            "class": "Sync"
+        },
+        {
+            "file": "lib/bundled-commands/Tasks.js",
+            "line": 37,
+            "itemtype": "method",
+            "name": "parse",
+            "description": "parse list of tasks written inside ng-task-runner/tasks.js file",
+            "return": {
+                "description": "Returns promise string with success or error",
+                "type": "Promise"
+            },
+            "class": "Tasks"
+        },
+        {
+            "file": "lib/bundled-commands/Tasks.js",
+            "line": 72,
+            "itemtype": "method",
+            "name": "registerWatchers",
+            "description": "register all required watchers to watch for file changes and run parsed tasks",
+            "requires": [
+                "Gaze"
+            ],
+            "class": "Tasks"
+        },
+        {
+            "file": "lib/bundled-commands/Tasks.js",
+            "line": 95,
+            "itemtype": "method",
+            "name": "decideTasks",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "changedFile",
+                    "description": "path to file changed",
+                    "type": "String"
+                }
+            ],
+            "description": "Decide which tasks to run depending upon file changed",
+            "class": "Tasks"
+        },
+        {
+            "file": "lib/bundled-commands/Tasks.js",
+            "line": 137,
+            "itemtype": "method",
+            "name": "runTasks",
+            "description": "Run all tasks in one go for one time",
+            "class": "Tasks"
+        },
+        {
+            "file": "lib/commands/generate/controller.js",
+            "line": 28,
+            "itemtype": "method",
+            "name": "run",
+            "params": [
+                {
+                    "name": "args",
+                    "description": "accept arguments passed with generate:controller command",
+                    "type": "Object"
+                }
+            ],
+            "description": "Entry point to generate:controller command and run all registered hooks",
+            "class": "Controller"
+        },
+        {
+            "file": "lib/commands/new.js",
+            "line": 28,
+            "itemtype": "method",
+            "name": "run",
+            "params": [
+                {
+                    "name": "args",
+                    "description": "accept arguments passed with new command",
+                    "type": "Object"
+                }
+            ],
+            "description": "Entry point to new command and run all registered hooks",
+            "class": "New"
+        },
+        {
+            "file": "lib/util/Helpers.js",
+            "line": 37,
+            "itemtype": "property",
+            "name": "config_file",
+            "type": "{String} app config file",
+            "final": "\"ngconfig.json\"",
+            "class": "Helpers"
+        },
+        {
+            "file": "lib/util/Helpers.js",
+            "line": 44,
+            "itemtype": "property",
+            "name": "tasks_file",
+            "type": "{String} app build tasks file",
+            "final": "\"tasks.js\"",
+            "class": "Helpers"
+        },
+        {
+            "file": "lib/util/Helpers.js",
+            "line": 51,
+            "itemtype": "property",
+            "name": "content_path",
+            "type": "{String} path to content directory to save bundled and app specific hooks",
+            "class": "Helpers"
+        },
+        {
+            "file": "lib/util/Helpers.js",
+            "line": 57,
+            "itemtype": "property",
+            "name": "local_modules",
+            "type": "{String} path to app specific hooks",
+            "class": "Helpers"
+        },
+        {
+            "file": "lib/util/Helpers.js",
+            "line": 63,
+            "itemtype": "property",
+            "name": "bundled_modules",
+            "type": "{String} path to bundled hooks",
+            "class": "Helpers"
+        },
+        {
+            "file": "lib/util/Helpers.js",
+            "line": 69,
+            "itemtype": "property",
+            "name": "project_path",
+            "type": "{String} path to ngCli root",
+            "class": "Helpers"
+        },
+        {
+            "file": "lib/util/Helpers.js",
+            "line": 77,
+            "itemtype": "method",
+            "name": "getConfig",
+            "return": {
+                "description": "Returns callback with error or config object",
+                "type": "Callback"
+            },
+            "class": "Helpers"
+        },
+        {
+            "file": "lib/util/Helpers.js",
+            "line": 86,
+            "description": "Using finup to find config file down from cwd",
+            "class": "Helpers"
+        },
+        {
+            "file": "lib/util/Helpers.js",
+            "line": 137,
+            "itemtype": "method",
+            "name": "getTasksFile",
+            "return": {
+                "description": "Returns callback with error or build tasks file path",
+                "type": "Callback"
+            },
+            "class": "Helpers"
+        },
+        {
+            "file": "lib/util/Helpers.js",
+            "line": 163,
+            "itemtype": "method",
+            "name": "getTasksFile",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "model",
+                    "description": "modules object to loop from",
+                    "type": "Object"
+                },
+                {
+                    "name": "key",
+                    "description": "key to look for",
+                    "type": "String"
+                },
+                {
+                    "name": "attached_with",
+                    "description": "find hook is attached with which proccess",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "Returns filtered model object",
+                "type": "Object"
+            },
+            "class": "Helpers"
+        },
+        {
+            "file": "lib/util/Helpers.js",
+            "line": 179,
+            "itemtype": "method",
+            "name": "run",
+            "params": [
+                {
+                    "name": "command",
+                    "description": "which command is getting executed",
+                    "type": "String"
+                },
+                {
+                    "name": "hooks_to_proccess",
+                    "description": "list of hooks attached with executed command/process",
+                    "type": "Object"
+                },
+                {
+                    "name": "config",
+                    "description": "ngconfig object",
+                    "type": "Object"
+                },
+                {
+                    "name": "args",
+                    "description": "Command arguments",
+                    "type": "Object"
+                }
+            ],
+            "description": "execute hooks configured with executed command/process",
+            "class": "Helpers"
+        },
+        {
+            "file": "lib/util/Helpers.js",
+            "line": 219,
+            "itemtype": "method",
+            "name": "addChildren",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "identifier",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "dest",
+                "type": "Object"
+            },
+            "class": "Helpers"
+        },
+        {
+            "file": "lib/util/Helpers.js",
+            "line": 240,
+            "itemtype": "method",
+            "name": "sortModules",
+            "params": [
+                {
+                    "name": "attached_with",
+                    "description": "hook-for identifier",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "List of sorted hooks",
+                "type": "Promise"
+            },
+            "description": "sort and return hooks ready to be executed",
+            "class": "Helpers"
+        }
+    ],
+    "warnings": [
+        {
+            "message": "Missing item type\nUsing finup to find config file down from cwd",
+            "line": " lib/util/Helpers.js:86"
+        }
+    ]
+}

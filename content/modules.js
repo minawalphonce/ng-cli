@@ -1,0 +1,1 @@
+module.exports = '{"standalone":[{"name":"ng-generate-controller","path":"/Users/harmindervirk/labs/a/node_modules/ng-generate-controller","weight":-1,"attached":"generate:controller"}],"depends":[]}'
