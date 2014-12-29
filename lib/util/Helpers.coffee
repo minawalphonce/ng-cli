@@ -55,6 +55,23 @@ class Helpers
     @project_path = path.join __dirname,"../../"
 
   ###*
+    # @method notify
+    # @param type {String} type of notificiation can be [error,warning,success,info]
+    # @param msg {String} Message to display
+  ###
+  notify: (type,msg) ->
+    lineup.log[type] msg
+
+  ###*
+    # @method actionMessage
+    # @param action {String} string to highlight in green
+    # @param message {String} message left
+  ###
+  actionMessage: (action,message) ->
+    message = "#{colors.green(action)} #{message}"
+    console.log message
+
+  ###*
     # @method getConfig
     # @return {callback} Returns callback with error or config object
   ###

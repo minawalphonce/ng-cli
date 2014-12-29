@@ -9,6 +9,7 @@ shelljs = require "shelljs"
 Gaze = require "gaze"
        .Gaze
 minimatch = require "minimatch"
+browserSync = require "browser-sync"
 
 ###*
   # Class to initiate watcher and run build tasks using ng-task-runner
@@ -95,6 +96,7 @@ class Tasks
       shelljs.cd "#{self.app_root}/#{self.task_runner_path}"
       commands = "gulp build #{commands} --path #{self.app_root}"
       shelljs.exec commands, (status) ->
+        self.reloadServer()
         console.log status
         ### @todo Show successfull build message ###
         return
@@ -107,7 +109,9 @@ class Tasks
   runTasks: () ->
     self = @
     defer = Promise.defer()
-    commands = ""
+    commands = "--bl";
+
+    helpers.actionMessage 'build','started build process...'
 
     _.each self.identifiers, (v) ->
       commands += " "+v
@@ -118,7 +122,8 @@ class Tasks
       commands = "gulp build #{commands} --path #{self.app_root}"
       shelljs.exec commands, (status) ->
         if status is 0
-          defer.resolve "build completed"
+          helpers.actionMessage 'build','Build completed'
+          defer.resolve 'build completed'
           return
         else
           defer.reject "Error running build"
@@ -127,5 +132,54 @@ class Tasks
       defer.resolve "No commands to run"
       return
     defer.promise
+
+  ###*
+    # @method checkAndStartServer
+    # @description fetches config and start a server
+  ###
+  checkAndStartServer: () ->
+    self = @
+    helpers.getConfig (err,config) ->
+      if err
+        helpers.notify "error",err
+        process.exit 1
+        return
+      else
+        if config.config.runServer
+          helpers.actionMessage 'server','Invoking server with live reload...'
+          self.startServer config
+          return
+        return
+    return
+
+  ###*
+    # @method startServer
+    # @param config {Object} ngconfig object
+  ###
+  startServer: (config) ->
+    serverConfig =
+      server:
+        baseDir: config.project_root
+      host:config.config.host
+      port: config.config.port
+      notify: false
+
+    browserSync serverConfig, (err,bs) ->
+      if err
+        console.log err
+        # helpers.notify "error",err
+        return
+      else
+        helpers.notify "success","Server started and running on #{config.config.host}:#{config.config.port}"
+        return
+    return
+
+  ###*
+    # @method reloadServer
+    # @description Reloads server on file change
+  ###
+  reloadServer: () ->
+    browserSync.reload()
+    return
 
 module.exports = Tasks

@@ -44,7 +44,7 @@ if(commands.build){
   tasks.parse().then(function(){
     return tasks.runTasks();
   }).then(function(success){
-    console.log(success);
+    tasks.checkAndStartServer();
     tasks.registerWatchers();
   }).catch(function(err){
     console.log(err);
