@@ -111,7 +111,7 @@ class Tasks
     defer = Promise.defer()
     commands = "--bl";
 
-    helpers.actionMessage 'build','started build process...'
+    helpers.actionMessage "build","started build process..."
 
     _.each self.identifiers, (v) ->
       commands += " "+v
@@ -122,8 +122,8 @@ class Tasks
       commands = "gulp build #{commands} --path #{self.app_root}"
       shelljs.exec commands, (status) ->
         if status is 0
-          helpers.actionMessage 'build','Build completed'
-          defer.resolve 'build completed'
+          helpers.actionMessage "build","Build completed"
+          defer.resolve "build completed"
           return
         else
           defer.reject "Error running build"
@@ -146,7 +146,7 @@ class Tasks
         return
       else
         if config.config.runServer
-          helpers.actionMessage 'server','Invoking server with live reload...'
+          helpers.actionMessage "server","Invoking server with live reload..."
           self.startServer config
           return
         return
@@ -164,7 +164,7 @@ class Tasks
       port: config.config.port
       notify: false
 
-    browserSync serverConfig, (err,bs) ->
+    browserSync serverConfig, (err) ->
       if err
         console.log err
         # helpers.notify "error",err

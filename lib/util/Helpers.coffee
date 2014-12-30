@@ -62,6 +62,17 @@ class Helpers
   notify: (type,msg) ->
     lineup.log[type] msg
 
+  trace: (err) ->
+    options = {}
+    if err.trace
+      options.trace = err.trace
+      error = err.error
+    else
+      error = err;
+
+    lineup.log.error error,options
+    process.exit 1
+
   ###*
     # @method actionMessage
     # @param action {String} string to highlight in green
@@ -140,7 +151,7 @@ class Helpers
     # @param args {Object} Command arguments
     # @description execute hooks configured with executed command/process
    ###
-   run: (command,hooks_to_proccess,config,args) ->
+   run: (command,hooks_to_proccess,config,args,cb) ->
      x = 0
      hooks_methods = _.map hooks_to_proccess , (val) ->
        val._init
@@ -161,7 +172,12 @@ class Helpers
        time_spent = elapsedTime.optimal || elapsedTime.milliSeconds + " milliseconds"
        lineup.log.success final_output
        console.log "Time spent #{time_spent}"
-       process.exit 0
+       if typeof cb == "function"
+         cb final_output
+         return
+       else
+         process.exit 0
+         return
        return
      .catch (err) ->
        lineup.log.error err
@@ -184,6 +200,26 @@ class Helpers
        self.addChildren index, val.name, dest
        return
      return
+
+   parseCommand: (command,process) ->
+     parsed_opts = {}
+     if command[process]
+       parsed_opts.command = command[process]
+       delete command[process]
+
+     if command["--opts"]
+       options = command["--opts"].split " "
+       delete command["--opts"]
+       _.each options, (values) ->
+         kv_pairs = values.split ":"
+         if _.size(kv_pairs) > 0
+           parsed_opts[kv_pairs[0]] = kv_pairs[1]
+           return
+         else
+           parsed_opts[kv_pairs[0]] = true
+           return
+
+      return _.extend(parsed_opts,command)
 
    ###*
     # @method sortModules
