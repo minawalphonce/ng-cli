@@ -25,7 +25,7 @@ class New
         helpers.run "new",hooks_to_proccess,null,args
         return
       else
-        lineup.log.warn "0 hooks configured for this proccess"
+        helpers.notify "warn","0 hooks configured for this proccess"
         process.exit 1
         return
     return

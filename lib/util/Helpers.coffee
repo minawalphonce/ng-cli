@@ -210,12 +210,12 @@ class Helpers
         new is passed 2nd argument
         ng new sampleProject is passed 1st argument
    ###
-   parseCommand: (command,process) ->
+   parseCommand: (command) ->
      parsed_opts = {}
      if command[0]
        parsed_opts.command = command[0]
        delete command[0]
-      
+
       return _.extend(parsed_opts,command)
 
    ###*

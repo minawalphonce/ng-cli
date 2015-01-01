@@ -1,10 +1,11 @@
+"use strict"
 
-controllerGenerator = require "../commands/generate/controller"
-filterGenerator = require "../commands/generate/filter"
-directiveGenerator = require "../commands/generate/directive"
-serviceGenerator = require "../commands/generate/service"
-factoryGenerator = require "../commands/generate/factory"
-initializerGenerator = require "../commands/generate/initializer"
+ControllerGenerator = require "../commands/generate/controller"
+FilterGenerator = require "../commands/generate/filter"
+DirectiveGenerator = require "../commands/generate/directive"
+ServiceGenerator = require "../commands/generate/service"
+FactoryGenerator = require "../commands/generate/factory"
+InitializerGenerator = require "../commands/generate/initializer"
 Helpers = require "../util/Helpers"
 helpers = new Helpers()
 
@@ -16,31 +17,31 @@ class Generate
 
      switch identifier
        when "controller"
-         cg = new controllerGenerator()
+         cg = new ControllerGenerator()
          cg.run parsed
          return
        when "filter"
-         fg = new filterGenerator()
+         fg = new FilterGenerator()
          fg.run parsed
          return
 
        when "factory"
-         fcg = new factoryGenerator()
+         fcg = new FactoryGenerator()
          fcg.run parsed
          return
 
        when "service"
-         sg = new serviceGenerator()
+         sg = new ServiceGenerator()
          sg.run parsed
          return
 
        when "initializer"
-         ig = new initializerGenerator()
+         ig = new InitializerGenerator()
          ig.run parsed
          return
 
        when "directive"
-         dg = new directiveGenerator()
+         dg = new DirectiveGenerator()
          dg.run parsed
          return
        else

@@ -1,9 +1,12 @@
-karma = require 'karma'
+
+"use strict"
+
+karma = require "karma"
 .server
-Helpers = require '../util/Helpers'
+Helpers = require "../util/Helpers"
 helpers = new Helpers();
-path = require 'path'
-shelljs = require 'shelljs'
+path = require "path"
+shelljs = require "shelljs"
 
 class Test
 
@@ -21,7 +24,7 @@ class Test
         commands += " --test"
         shelljs.cd "#{data.project_root}/#{task_runner_path}"
         commands = "gulp build #{commands} --path #{data.project_root}"
-        shelljs.exec commands, (status) ->
+        shelljs.exec commands, () ->
     return
 
 module.exports = Test
