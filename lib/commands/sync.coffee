@@ -23,7 +23,7 @@ class Sync
   ###
   run: (args) ->
     type = false
-    if args.command == "bundled"
+    if args.type == "bundled"
       type = "bundled"
     sync.init(type)
     .then (response) ->

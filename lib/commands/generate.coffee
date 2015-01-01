@@ -5,12 +5,14 @@ directiveGenerator = require "../commands/generate/directive"
 serviceGenerator = require "../commands/generate/service"
 factoryGenerator = require "../commands/generate/factory"
 initializerGenerator = require "../commands/generate/initializer"
+Helpers = require "../util/Helpers"
+helpers = new Helpers()
 
 class Generate
   run: (parsed) ->
-   command = parsed.command.split ":"
-   if command.length > 0
-     identifier = command[0]
+   generator = parsed.generator
+   if generator.length > 1
+     identifier = generator[0]
 
      switch identifier
        when "controller"
@@ -42,10 +44,10 @@ class Generate
          dg.run parsed
          return
        else
-         @.notify "error","Not a valid generator"
+         helpers.notify "error","Not a valid generator"
          return
    else
-     @.notify "error","Not a valid generator"
+     helpers.notify "error","Not a valid generator"
      return
 
 module.exports = Generate

@@ -212,22 +212,10 @@ class Helpers
    ###
    parseCommand: (command,process) ->
      parsed_opts = {}
-     if command[process]
-       parsed_opts.command = command[process]
-       delete command[process]
-
-     if command["--opts"]
-       options = command["--opts"].split " "
-       delete command["--opts"]
-       _.each options, (values) ->
-         kv_pairs = values.split ":"
-         if _.size(kv_pairs) > 0
-           parsed_opts[kv_pairs[0]] = kv_pairs[1]
-           return
-         else
-           parsed_opts[kv_pairs[0]] = true
-           return
-
+     if command[0]
+       parsed_opts.command = command[0]
+       delete command[0]
+      
       return _.extend(parsed_opts,command)
 
    ###*

@@ -1,6 +1,6 @@
 #! /usr/bin/env node
 
-var nut = require('nut-cli');
+var nomnom = require("nomnom");
 
 var Helpers = require('./lib/util/Helpers');
 var helpers = new Helpers();
@@ -17,49 +17,82 @@ var newProject = new NewProject();
 var Hook = require('./lib/commands/hook');
 var hook = new Hook();
 
+nomnom.command('test')
+.option('watch',{
+  abbr: 'w',
+  flag: true,
+  help: "watch test files or changes and re run tests"
+}).callback(function(opts) {
+  var Test = require('./lib/bundled-commands/Test');
+  var test = new Test();
+  var parsed = helpers.parseCommand(opts);
+  test.run(parsed);
+}).help("run karma tests");
 
-nut.bootCommand('ngCli');
-
-nut.addCommand('sync','[option:String]','Which modules to sync can be all or bundled');
-nut.addCommand('new','[project_name:String]','Enter new project name');
-nut.addCommand('build',false,'Build project');
-nut.addCommand('serve',false,'Build project and add watcher to your project');
-nut.addCommand('hook','[name:String]','Hook you want to run manually');
-nut.addCommand('generate','[generator:String]','Name of generator you want to invoke');
-
-nut.addCommandOptions('sync','--opts','[options:String]','number of options to pass with sync command');
-nut.addCommandOptions('new','--opts','[options:String]','number of options to pass with new command');
-nut.addCommandOptions('build','--opts','[options:String]','number of options to pass with build command');
-nut.addCommandOptions('hook','--opts','[options:String]','number of options to pass with hook command');
-nut.addCommandOptions('generate','--opts','[options:String]','number of options to pass with generate command');
-
-var commands = nut.parse();
-
-if(commands.sync){
-  var parsed = helpers.parseCommand(commands,'sync');
-  sync.run(parsed);
-}
-if(commands.new){
-  var parsed = helpers.parseCommand(commands,'new');
+nomnom.command('new')
+.option('name',{
+  position: 1,
+  required: true
+}).callback(function(opts){
+  var parsed = helpers.parseCommand(opts);
   newProject.run(parsed);
-}
-if(commands.generate){
-  var parsed = helpers.parseCommand(commands,'generate');
+})
+.help("Create new angular project name");
+
+nomnom.command('generate')
+.option('generator',{
+  position: 1,
+  required: true
+}).callback(function(opts){
+  var parsed = helpers.parseCommand(opts);
   generate.run(parsed);
-}
-if(commands.hook){
-  var parsed = helpers.parseCommand(commands,'hook');
+})
+.help("Generate blueprint using generators");
+
+
+nomnom.command('hook')
+.option('hook',{
+  position: 1,
+  required: true
+}).callback(function(opts){
+  var parsed = helpers.parseCommand(opts);
   hook.run(parsed);
-}
-if(commands.build){
+})
+.help("Run any hook using it's name");
+
+nomnom.command('build')
+.callback(function(opts){
   var Build = require('./lib/commands/build');
   var build = new Build();
-  var parsed = helpers.parseCommand(commands,'build');
+  var parsed = helpers.parseCommand(opts);
   build.run(parsed);
-}
-if(commands.serve){
+})
+.help("Build project files into dist folder");
+
+nomnom.command('serve')
+.callback(function(opts){
   var Build = require('./lib/commands/build');
   var build = new Build();
-  var parsed = helpers.parseCommand(commands,'build');
+  var parsed = helpers.parseCommand(opts);
   build.run(parsed,true);
-}
+})
+.help("Build, watch and run live server.");
+
+nomnom.command('sync')
+.option('type',{
+  position: 1
+})
+.callback(function(opts){
+  var parsed = helpers.parseCommand(opts);
+  sync.run(parsed);
+})
+.help("Sync your project hooks");
+
+nomnom.command('version')
+.callback(function(opts){
+  var packageFile = require('./package.json');
+  console.log("Version " + packageFile.version);
+})
+.help("Sync your project hooks");
+
+nomnom.parse();

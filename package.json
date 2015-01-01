@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "gulp lint",
-    "postinstall" : "ng sync bundled"
+    "postinstall": "ng sync bundled"
   },
   "author": "amanvirk <virk.officials@gmail.com>",
   "license": "ISC",
@@ -21,15 +21,15 @@
     "lodash": "^2.4.1",
     "minimatch": "^2.0.1",
     "nconf": "^0.7.1",
-    "nut-cli": "0.0.2",
-    "read-package-tree": "^2.0.0",
-    "shelljs": "^0.3.0",
-    "underscore": "^1.7.0",
-    "ng-project-blueprint": "git+https://github.com/ngCli/ng-project-blueprint.git",
     "ng-dependencies-install": "git+https://github.com/ngCli/ng-dependencies-install.git",
+    "ng-new-welcome": "git+https://github.com/ngCli/ng-new-welcome.git",
+    "ng-project-blueprint": "git+https://github.com/ngCli/ng-project-blueprint.git",
     "ng-scaffold-coffee": "git+https://github.com/ngCli/ng-scaffold-coffee.git",
     "ng-scaffold-js": "git+https://github.com/ngCli/ng-scaffold-js.git",
-    "ng-new-welcome": "git+https://github.com/ngCli/ng-new-welcome.git"
+    "nomnom": "^1.8.1",
+    "read-package-tree": "^2.0.0",
+    "shelljs": "^0.3.0",
+    "underscore": "^1.7.0"
   },
   "devDependencies": {
     "gulp": "^3.8.10",
@@ -38,6 +38,6 @@
   },
   "preferGlobal": "true",
   "bin": {
-    "ng" : "index.js"
+    "ng": "index.js"
   }
 }

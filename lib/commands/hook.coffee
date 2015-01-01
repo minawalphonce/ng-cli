@@ -24,7 +24,7 @@ class Hook
         helpers.trace err
         return
       else
-        hook_to_run = helpers.fetchHookMethod args.command
+        hook_to_run = helpers.fetchHookMethod args.hook
         if hook_to_run
           hook_to_run_object = {name:hook_to_run.name,_init:hook_to_run.path}
           helpers.run "hook",[hook_to_run_object],ngconfig,args
