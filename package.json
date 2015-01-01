@@ -1,11 +1,11 @@
 {
-  "name": "cli",
+  "name": "ngCli",
   "version": "0.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "gulp lint",
-    "postinstall": "ng sync bundled"
+    "postinstall": "node ./index.js sync bundled"
   },
   "author": "amanvirk <virk.officials@gmail.com>",
   "license": "ISC",
@@ -29,7 +29,8 @@
     "nomnom": "^1.8.1",
     "read-package-tree": "^2.0.0",
     "shelljs": "^0.3.0",
-    "underscore": "^1.7.0"
+    "underscore": "^1.7.0",
+    "update-notifier": "^0.2.2"
   },
   "devDependencies": {
     "gulp": "^3.8.10",

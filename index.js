@@ -17,6 +17,11 @@ var newProject = new NewProject();
 var Hook = require('./lib/commands/hook');
 var hook = new Hook();
 
+var updateNotifier = require('update-notifier');
+var pkg = require('./package.json');
+
+updateNotifier({packageName: pkg.name, packageVersion: pkg.version,updateCheckInterval:1000}).notify();
+
 nomnom.command('test')
 .option('watch',{
   abbr: 'w',
@@ -42,6 +47,7 @@ nomnom.command('new')
 nomnom.command('generate')
 .option('generator',{
   position: 1,
+  list: true,
   required: true
 }).callback(function(opts){
   var parsed = helpers.parseCommand(opts);
@@ -90,8 +96,7 @@ nomnom.command('sync')
 
 nomnom.command('version')
 .callback(function(opts){
-  var packageFile = require('./package.json');
-  console.log("Version " + packageFile.version);
+  console.log("Version " + pkg.version);
 })
 .help("Sync your project hooks");
 
