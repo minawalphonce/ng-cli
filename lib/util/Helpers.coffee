@@ -155,42 +155,38 @@ class Helpers
      x = 0
      started_at = new Date()
 
-     if config.config.hooks_to_ignore
+     if config && config.config.hooks_to_ignore
        hooks_to_proccess = _.filter hooks_to_proccess, (hook) ->
          !_.contains config.config.hooks_to_ignore,hook.name
 
      hooks_methods = _.map hooks_to_proccess , (val) ->
        val._init
 
-     if _.size(hooks_methods) > 0
-       Promise.reduce hooks_methods, (output,process) ->
-         if typeof output is "string"
-           lineup.log.success output
-         if typeof output is "function"
-           output = null
-         console.log "\n" + colors.bold.underline "Executing #{hooks_to_proccess[x].name}"
-         x++
-         process = require(process).init
-         process output,config,args,nconf
-       , 0
-       .then (final_output) ->
-         elapsedTime = new Elapsed started_at,new Date()
-         time_spent = elapsedTime.optimal || elapsedTime.milliSeconds + " milliseconds"
-         lineup.log.success final_output
-         console.log "Time spent #{time_spent}"
-         if typeof cb == "function"
-           cb final_output
-           return
-         else
-           process.exit 0
-           return
+     Promise.reduce hooks_methods, (output,process) ->
+       if typeof output is "string"
+         lineup.log.success output
+       if typeof output is "function"
+         output = null
+       console.log "\n" + colors.bold.underline "Executing #{hooks_to_proccess[x].name}"
+       x++
+       process = require(process).init
+       process output,config,args,nconf
+     , 0
+     .then (final_output) ->
+       elapsedTime = new Elapsed started_at,new Date()
+       time_spent = elapsedTime.optimal || elapsedTime.milliSeconds + " milliseconds"
+       lineup.log.success final_output
+       console.log "Time spent #{time_spent}"
+       if typeof cb == "function"
+         cb final_output
          return
-       .catch (err) ->
-         lineup.log.error err
-         process.exit 1
+       else
+         process.exit 0
          return
-     else
-       lineup.log.warn "0 hooks configured for this process"
+       return
+     .catch (err) ->
+       lineup.log.error err
+       process.exit 1
        return
      return
 
