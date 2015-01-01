@@ -109,7 +109,7 @@ class Tasks
   runTasks: () ->
     self = @
     defer = Promise.defer()
-    commands = "--bl";
+    commands = ""
 
     helpers.actionMessage "build","started build process..."
 

@@ -6,9 +6,6 @@ Promise = require "bluebird"
 Helpers = require "../util/Helpers"
 helpers = new Helpers()
 
-LineUp = require "lineup"
-lineup = new LineUp()
-
 ###*
   # Class to run anonymous hooks from anywhere and for any purpopse
   # @class Hook
@@ -27,7 +24,14 @@ class Hook
         helpers.trace err
         return
       else
-        helpers.run "hook",[args.command],ngconfig,args
+        hook_to_run = helpers.fetchHookMethod args.command
+        if hook_to_run
+          hook_to_run_object = {name:hook_to_run.name,_init:hook_to_run.path}
+          helpers.run "hook",[hook_to_run_object],ngconfig,args
+        else
+          helpers.notify "error","#{args.command} not found"
+          process.exit 1
+          return
         return
     return
 

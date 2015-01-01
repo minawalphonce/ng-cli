@@ -6,9 +6,6 @@ Promise = require "bluebird"
 Helpers = require "../util/Helpers"
 helpers = new Helpers()
 
-LineUp = require "lineup"
-lineup = new LineUp()
-
 ###*
   # Class to fetch and run hooks registered for new process/command
   # @class New

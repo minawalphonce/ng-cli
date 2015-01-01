@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "gulp lint"
+    "test": "gulp lint",
+    "postinstall" : "ng sync bundled"
   },
   "author": "amanvirk <virk.officials@gmail.com>",
   "license": "ISC",

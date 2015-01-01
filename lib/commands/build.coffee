@@ -9,9 +9,6 @@ helpers = new Helpers()
 Tasks = require "../bundled-commands/Tasks"
 tasks = new Tasks()
 
-LineUp = require "lineup"
-lineup = new LineUp()
-
 ###*
   # Class to sync local and bundled hooks
   # @class Sync
@@ -24,7 +21,7 @@ class Sync
     # @param args {Object} accept arguments passed with sync command
     # @description Entry point to sync command
   ###
-  run: (args) ->
+  run: (args,watch) ->
     helpers.sortModules("build")
     .then (hooks_to_proccess) ->
       helpers.getConfig (err,ngconfig) ->
@@ -37,8 +34,10 @@ class Sync
             .then () ->
               tasks.runTasks()
             .then () ->
-              tasks.checkAndStartServer()
-              tasks.registerWatchers()
+              if watch
+                tasks.checkAndStartServer()
+                tasks.registerWatchers()
+                return
               return
             .catch (err) ->
               helpers.trace err

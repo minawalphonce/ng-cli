@@ -165,6 +165,7 @@ class Helpers
          output = null
        console.log "\n" + colors.bold.underline "Executing #{hooks_to_proccess[x].name}"
        x++
+       process = require(process).init
        process output,config,args,nconf
      , 0
      .then (final_output) ->
@@ -196,11 +197,19 @@ class Helpers
      self = @
      (index[identifier] || [])
      .forEach (val) ->
-       dest.push {name:val.name,_init:require(val.path).init}
+       dest.push {name:val.name,_init:val.path}
        self.addChildren index, val.name, dest
        return
      return
 
+   ###*
+    # @method parseCommand
+    # @param command Raw command to parse
+    # @param process runned as which process
+    # @example ng new sampleProject
+        new is passed 2nd argument
+        ng new sampleProject is passed 1st argument
+   ###
    parseCommand: (command,process) ->
      parsed_opts = {}
      if command[process]
@@ -222,6 +231,33 @@ class Helpers
       return _.extend(parsed_opts,command)
 
    ###*
+    # @method fetchHookMethod
+    # @param hook_name Name of the hook
+    # @description fetches and returns hook init method with it's name
+   ###
+
+   fetchHookMethod: (hook_name) ->
+      modules = require @local_modules
+      if _.size(modules) > 0
+        modules = JSON.parse modules
+
+      bundled = require @bundled_modules
+      if _.size(bundled) > 0
+        bundled = JSON.parse bundled
+
+      modules.standalone = modules.standalone || {}
+      modules.depends = modules.depends || {}
+
+      bundled.standalone = bundled.standalone || {}
+      bundled.depends = bundled.depends || {}
+
+      modules.standalone = _.zip bundled.standalone,modules.standalone
+      modules.depends = _.zip bundled.depends,modules.depends
+
+      combined_modules = _.flatten(modules.standalone).concat(_.flatten(modules.depends))
+      return _.find(_.compact(combined_modules),{name:hook_name});
+
+   ###*
     # @method sortModules
     # @param attached_with {String} hook-for identifier
     # @return {promise} List of sorted hooks
@@ -232,6 +268,7 @@ class Helpers
      dest = []
      defer = Promise.defer()
      methods = []
+
      modules = require @local_modules
      if _.size(modules) > 0
        modules = JSON.parse modules

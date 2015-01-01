@@ -9,9 +9,6 @@ helpers = new Helpers()
 Sync = require "../bundled-commands/Sync"
 sync = new Sync()
 
-LineUp = require "lineup"
-lineup = new LineUp()
-
 ###*
   # Class to sync local and bundled hooks
   # @class Sync
@@ -34,7 +31,7 @@ class Sync
     .then (response) ->
       sync.registerModules response
     .then (success) ->
-      lineup.log.success success
+      helpers.notify "success",success
       process.exit 0
       return
     .catch (err) ->
