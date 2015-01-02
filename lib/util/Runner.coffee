@@ -1,3 +1,4 @@
+"use strict"
 
 Helper = require "./Helpers"
 Promise = require "bluebird"

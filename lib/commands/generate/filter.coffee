@@ -30,7 +30,7 @@ class Filter
             runner.trace err
             return
           else
-            helpers.run "generate:filter",hooks_to_proccess,ngconfig,args
+            runner.run "generate:filter",hooks_to_proccess,ngconfig,args
             return
         return
       else
