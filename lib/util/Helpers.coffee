@@ -82,6 +82,34 @@ class Helpers
     message = "#{colors.green(action)} #{message}"
     console.log message
 
+
+   ###*
+    # @method fetchHookMethod
+    # @param hook_name Name of the hook
+    # @description fetches and returns hook init method with it's name
+   ###
+
+   fetchHookMethod: (hook_name) ->
+      modules = require @local_modules
+      if _.size(modules) > 0
+        modules = JSON.parse modules
+
+      bundled = require @bundled_modules
+      if _.size(bundled) > 0
+        bundled = JSON.parse bundled
+
+      modules.standalone = modules.standalone || {}
+      modules.depends = modules.depends || {}
+
+      bundled.standalone = bundled.standalone || {}
+      bundled.depends = bundled.depends || {}
+
+      modules.standalone = _.zip bundled.standalone,modules.standalone
+      modules.depends = _.zip bundled.depends,modules.depends
+
+      combined_modules = _.flatten(modules.standalone).concat(_.flatten(modules.depends))
+      return _.find(_.compact(combined_modules),{name:hook_name});
+
   ###*
     # @method getConfig
     # @return {callback} Returns callback with error or config object
@@ -191,22 +219,6 @@ class Helpers
      return
 
    ###*
-    # @method addChildren
-    # @private
-    # @param index {String}
-    # @param identifier {String}
-    # @return dest {Object}
-   ###
-   addChildren: (index,identifier,dest) ->
-     self = @
-     (index[identifier] || [])
-     .forEach (val) ->
-       dest.push {name:val.name,_init:val.path}
-       self.addChildren index, val.name, dest
-       return
-     return
-
-   ###*
     # @method parseCommand
     # @param command Raw command to parse
     # @param process runned as which process
@@ -222,85 +234,5 @@ class Helpers
 
       return _.extend(parsed_opts,command)
 
-   ###*
-    # @method fetchHookMethod
-    # @param hook_name Name of the hook
-    # @description fetches and returns hook init method with it's name
-   ###
-
-   fetchHookMethod: (hook_name) ->
-      modules = require @local_modules
-      if _.size(modules) > 0
-        modules = JSON.parse modules
-
-      bundled = require @bundled_modules
-      if _.size(bundled) > 0
-        bundled = JSON.parse bundled
-
-      modules.standalone = modules.standalone || {}
-      modules.depends = modules.depends || {}
-
-      bundled.standalone = bundled.standalone || {}
-      bundled.depends = bundled.depends || {}
-
-      modules.standalone = _.zip bundled.standalone,modules.standalone
-      modules.depends = _.zip bundled.depends,modules.depends
-
-      combined_modules = _.flatten(modules.standalone).concat(_.flatten(modules.depends))
-      return _.find(_.compact(combined_modules),{name:hook_name});
-
-   ###*
-    # @method sortModules
-    # @param attached_with {String} hook-for identifier
-    # @return {promise} List of sorted hooks
-    # @description sort and return hooks ready to be executed
-   ###
-   sortModules: (attached_with) ->
-     self = @
-     dest = []
-     defer = Promise.defer()
-     methods = []
-
-     modules = require @local_modules
-     if _.size(modules) > 0
-       modules = JSON.parse modules
-
-     bundled = require @bundled_modules
-     if _.size(bundled) > 0
-       bundled = JSON.parse bundled
-
-     modules.standalone = modules.standalone || {}
-     modules.depends = modules.depends || {}
-
-     bundled.standalone = bundled.standalone || {}
-     bundled.depends = bundled.depends || {}
-
-     modules.standalone = _.zip bundled.standalone,modules.standalone
-     modules.depends = _.zip bundled.depends,modules.depends
-
-     modules.standalone = _.chain modules.standalone
-     .flatten(true)
-     .compact(true)
-     .sortBy (val) ->
-       val.weight
-     .value()
-
-     modules.depends = _.chain modules.depends
-     .flatten(true)
-     .compact(true)
-     .sortBy (val) ->
-       val.weight
-     .value()
-
-     combinedModules = modules.standalone.concat modules.depends
-
-     combinedModules = _.filter combinedModules, (val) ->
-       val.attached == attached_with
-
-     self.addChildren(_.groupBy(combinedModules, "after"), undefined, dest)
-
-     defer.resolve dest
-
-     defer.promise
 
 module.exports = Helpers

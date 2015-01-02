@@ -13,6 +13,9 @@ register = new Helpers()
 LineUp = require "lineup"
 lineup = new LineUp()
 
+Configstore = require "configstore"
+conf = new Configstore "angcli"
+
 ###*
   # Class to sync bundled / local hooks , helps in registering hooks in short
   # @class Sync
@@ -63,6 +66,7 @@ class Sync
   ###
   fetchModules: (config) ->
     defer = Promise.defer()
+    conf.set "project_root",config.project_root
     project_root = config.project_root
     tree project_root, (err,modules) ->
       if err

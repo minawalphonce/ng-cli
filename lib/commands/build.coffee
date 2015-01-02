@@ -3,8 +3,8 @@
 _ = require "lodash"
 Promise = require "bluebird"
 
-Helpers = require "../util/Helpers"
-helpers = new Helpers()
+Runner = require "../util/Runner"
+runner = new Runner()
 
 Tasks = require "../bundled-commands/Tasks"
 tasks = new Tasks()
@@ -22,14 +22,14 @@ class Sync
     # @description Entry point to sync command
   ###
   run: (args,watch) ->
-    helpers.sortModules("build")
+    runner.sortModules("build")
     .then (hooks_to_proccess) ->
-      helpers.getConfig (err,ngconfig) ->
+      runner.getConfig (err,ngconfig) ->
         if err
-          helpers.trace err
+          runner.trace err
           return
         else
-          helpers.run "generate:controller",hooks_to_proccess,ngconfig,args, () ->
+          runner.run "generate:controller",hooks_to_proccess,ngconfig,args, () ->
             tasks.parse()
             .then () ->
               tasks.runTasks()
@@ -40,7 +40,7 @@ class Sync
                 return
               return
             .catch (err) ->
-              helpers.trace err
+              runner.trace err
               return
           return
       return

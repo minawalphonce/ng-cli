@@ -3,8 +3,8 @@
 _ = require "lodash"
 Promise = require "bluebird"
 
-Helpers = require "../../util/Helpers"
-helpers = new Helpers()
+Runner = require "../../util/Runner"
+runner = new Runner()
 
 LineUp = require "lineup"
 lineup = new LineUp()
@@ -22,22 +22,25 @@ class Filter
     # @description Entry point to generate:filter command and run all registered hooks
   ###
   run: (args) ->
-    helpers.sortModules("generate:filter")
+    runner.sortModules("generate:filter")
     .then (hooks_to_proccess) ->
       if _.size(hooks_to_proccess) > 0
-        helpers.getConfig (err,ngconfig) ->
+        runner.getConfig (err,ngconfig) ->
           if err
-            lineup.log.error err
-            process.exit 1
+            runner.trace err
             return
           else
             helpers.run "generate:filter",hooks_to_proccess,ngconfig,args
             return
         return
       else
-        lineup.log.warn "0 hooks configured for this proccess"
+        runner.notify "warn","0 hooks configured for this proccess"
         process.exit 1
         return
+    .catch (err) ->
+     runner.trace err
+     process.exit 1
+     return
     return
 
 module.exports = Filter

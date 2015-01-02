@@ -98,6 +98,6 @@ nomnom.command('version')
 .callback(function(opts){
   console.log("Version " + pkg.version);
 })
-.help("Sync your project hooks");
+.help("ng Version");
 
 nomnom.parse();
