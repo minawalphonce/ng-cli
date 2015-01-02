@@ -24,6 +24,7 @@ class Tasks
     @identifiers = {}
     @app_root = ""
     @task_runner_path = "node_modules/ng-task-runner"
+    @live_reload = ""
 
   ###*
     # @method parse
@@ -145,8 +146,9 @@ class Tasks
         process.exit 1
         return
       else
-        if config.config.runServer
-          helpers.actionMessage "server","Invoking server with live reload..."
+        if config.config.run_server
+          self.live_reload = config.config.live_reload
+          helpers.actionMessage "server","Invoking server ..."
           self.startServer config
           return
         return
@@ -179,7 +181,8 @@ class Tasks
     # @description Reloads server on file change
   ###
   reloadServer: () ->
-    browserSync.reload()
-    return
+    if @.live_reload
+      browserSync.reload()
+      return
 
 module.exports = Tasks
