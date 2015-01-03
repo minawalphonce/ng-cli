@@ -66,7 +66,6 @@ class Sync
   ###
   fetchModules: (config) ->
     defer = Promise.defer()
-    conf.set "project_root",config.project_root
     project_root = config.project_root
     tree project_root, (err,modules) ->
       if err
@@ -109,6 +108,7 @@ class Sync
     modules = JSON.stringify modules
     module_string = "module.exports = "+ util.inspect(modules)
     fs.writeFileSync self.modules,module_string
+    conf.set "project_root",config.project_root
     defer.resolve "Registered modules successfully"
     defer.promise
 
