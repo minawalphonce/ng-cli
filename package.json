@@ -28,5 +28,9 @@
     "angular-task-runner"
   ],
   "author": "amanvirk <virk.officials@gmail.com>",
-  "license": "ISC"
+  "license": "ISC",
+  "preferGlobal": "true",
+  "bin": {
+    "ng": "index.js"
+  }
 }
