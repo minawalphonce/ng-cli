@@ -1,3 +1,5 @@
+"use strict"
+
 Helpers = require "./helpers"
 helpers = new Helpers()
 
@@ -68,83 +70,83 @@ class CommandsParser
       All good . OK . Tested
     ###
     self = @
-    nomnom.command 'new'
-    .option 'name',
+    nomnom.command "new"
+    .option "name",
       required: true,
       position: 1,
-      help: 'project name'
+      help: "project name"
     .callback (options) ->
       bundledcommands.newApp options
       return
-    .help 'Create new ngCli project'
+    .help "Create new ngCli project"
 
     ###
       All good . OK . Tested
     ###
     self = @
-    nomnom.command 'test'
-    .option 'watch',
+    nomnom.command "test"
+    .option "watch",
       flag: true,
-      help: 'watch for changes in test files'
+      help: "watch for changes in test files"
     .callback (options) ->
       bundledcommands.karmaStart options
       return
-    .help 'Run karma unit tests'
+    .help "Run karma unit tests"
 
     ###
       All good . OK . Tested
     ###
-    nomnom.command 'install'
-    .option 'name',
+    nomnom.command "install"
+    .option "name",
       required: true,
       position: 1,
-      help: 'name of the hook you want to install'
+      help: "name of the hook you want to install"
     .callback (options) ->
       bundledcommands.installAddon options
       return
-    .help 'Install ng hooks from npm'
+    .help "Install ng hooks from npm"
 
     ###
       All good . OK . Tested
     ###
-    nomnom.command 'build'
+    nomnom.command "build"
     .callback (options) ->
       bundledcommands.buildApp options
       return
-    .help 'Build source files'
+    .help "Build source files"
 
     ###
       All good . OK . Tested
     ###
-    nomnom.command 'addon'
-    .option 'name',
+    nomnom.command "addon"
+    .option "name",
       required: true,
       position: 1,
-      help: 'name of the addon you want to create'
+      help: "name of the addon you want to create"
     .callback (options) ->
       bundledcommands.addon options
       return
-    .help 'Scaffold ng addon'
+    .help "Scaffold ng addon"
 
     ###
       All good . OK . Tested
     ###
-    nomnom.command 'serve'
+    nomnom.command "serve"
     .callback (options) ->
       bundledcommands.serveApp options
       return
-    .help 'Add watcher to build source files on every change'
+    .help "Add watcher to build source files on every change"
 
 
     ###
       All good . OK . Tested
     ###
-    nomnom.command 'version'
-    .callback (options) ->
+    nomnom.command "version"
+    .callback () ->
       pck = require path.join __dirname,"../../package.json"
       console.log "Version #{pck.version}"
       return
-    .help 'ngCli version'
+    .help "ngCli version"
 
     nomnom.parse()
     return

@@ -1,3 +1,4 @@
+"use strict"
 
 path = require "path"
 Helpers = require "./helpers"
@@ -62,21 +63,21 @@ class BundledCommands
     ###
 
     blueprints_question =
-      type: 'list'
-      name: 'blueprint',
-      message: 'Select project blueprint',
+      type: "list"
+      name: "blueprint",
+      message: "Select project blueprint",
       choices: [
         {
-          name:'Default template',
-          value:'default'
+          name:"Default template",
+          value:"default"
         },
         {
-          name:'Ui Router template',
-          value:'ui-router'
+          name:"Ui Router template",
+          value:"ui-router"
         },
         {
-          name:'Your own template from git',
-          value:'git-pull'
+          name:"Your own template from git",
+          value:"git-pull"
         }
       ]
 
@@ -84,19 +85,19 @@ class BundledCommands
       Git paths from templates name
     ###
     git_paths =
-      'ui-router': 'https://github.com/ngCli/ngcli-ui.router-blueprint.git'
-      'default': 'https://github.com/ngCli/ngcli-default-blueprint.git'
+      "ui-router": "https://github.com/ngCli/ngcli-ui.router-blueprint.git"
+      "default": "https://github.com/ngCli/ngcli-default-blueprint.git"
 
     ###*
       Question to ak if user choice is git-pull
     ###
 
     git_questions =
-      type: 'input',
-      name: 'git-path',
-      message: 'Enter git url to pull from',
+      type: "input",
+      name: "git-path",
+      message: "Enter git url to pull from",
       validate: (value) ->
-        value.trim().length > 0 ? true : false
+        if value.trim().length > 0 then true else false
 
     ###*
       Looking if name of the project was passed
@@ -121,7 +122,7 @@ class BundledCommands
               @note If answer is git-pull , ask for git path
               and run clone on top of it
             ###
-            if answers.blueprint is 'git-pull'
+            if answers.blueprint is "git-pull"
               inquirer.prompt git_questions, (answers) ->
                 ###*
                   @note Clone blueprint from custom path to project directory
@@ -168,7 +169,7 @@ class BundledCommands
   ###*
     Simply run ng-task-runner inside node modules of app
   ###
-  buildApp: (args) ->
+  buildApp: () ->
     shelljs.cd process.cwd()
     shelljs.exec "node node_modules/ngcli-task-runner/index.js --build"
 
@@ -178,13 +179,13 @@ class BundledCommands
     if exists
   ###
   installAddon: (args) ->
-    findup process.cwd(),'package.json', (err,dir) ->
+    findup process.cwd(),"package.json", (err,dir) ->
       if err
          helpers._terminate err
          return
 
       shelljs.cd dir
-      shelljs.exec "npm install #{args.name} --save" , (code,output) ->
+      shelljs.exec "npm install #{args.name} --save" , (code) ->
         if code is 0
           ###* All good ###
           ###*
@@ -201,7 +202,7 @@ class BundledCommands
           ###
           addon_path = path.join(dir,"node_modules/#{args.name}");
           getInstalledAddon = require addon_path
-          if typeof getInstalledAddon.afterInstall is 'function'
+          if typeof getInstalledAddon.afterInstall is "function"
             getInstalledAddon.afterInstall();
             return
           return
@@ -213,14 +214,14 @@ class BundledCommands
   ###*
     Simply run ng-task-runner inside node modules of app
   ###
-  serveApp: (args) ->
+  serveApp: () ->
     shelljs.cd process.cwd()
     shelljs.exec "node node_modules/ngcli-task-runner/index.js --serve"
 
   ###*
     Run karma unit tests
   ###
-  karmaStart: (args) ->
+  karmaStart: () ->
     shelljs.cd process.cwd()
     shelljs.exec "node node_modules/ngcli-task-runner/index.js --test"
 

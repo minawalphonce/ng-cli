@@ -1,3 +1,5 @@
+"use strict"
+
 Promise = require "bluebird"
 _ = require "lodash"
 
@@ -32,10 +34,10 @@ class HookRunner
             self.addChildren(_.groupBy(proccess_hooks, "after"), undefined, dest)
             defer.resolve dest
           else
-            defer.reject {'warn':"0 hooks for #{process_name}"}
+            defer.reject {"warn":"0 hooks for #{process_name}"}
             return
         else
-          defer.reject {'warn':"0 hooks for #{process_name}"}
+          defer.reject {"warn":"0 hooks for #{process_name}"}
           return
     defer.promise
 

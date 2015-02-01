@@ -1,3 +1,4 @@
+"use strict"
 
 findup = require "findup"
 path = require "path"
@@ -41,7 +42,7 @@ class Helpers
     self = @
     shelljs.exec "git clone #{name} #{toPath}" , (code,output) ->
       if code is 0
-        cb null,'cloned'
+        cb null,"cloned"
         return
       else
         self._terminate output
@@ -55,24 +56,25 @@ class Helpers
   ###
   _getNgConfig: (cb) ->
     self = @
-    findup process.cwd(),'ngconfig.json', (err,dir) ->
+    findup process.cwd(),"ngconfig.json", (err,dir) ->
       if err
         error_string =
           message:
-            'Unable to find ngconfig.json , make sure you are inside ngcli project'
+            "Unable to find ngconfig.json , make sure you are inside ngcli project"
           trace:
             err: err
         self._terminate error_string
         return
       else
-        config_path = path.join dir,'ngconfig.json'
+        config_path = path.join dir,"ngconfig.json"
         config_object = fs.readFileSync config_path
         try
           config_object = JSON.parse config_object.toString()
+          return
         catch e
           error_string =
           message:
-            'Unable to read ngconfig.json, possibily a corrupt file'
+            "Unable to read ngconfig.json, possibily a corrupt file"
           trace:
             err: err
           self._terminate error_string
@@ -82,17 +84,17 @@ class Helpers
 
   checkForOldApp: (cb) ->
     self = @
-    findup process.cwd(),'package.json', (err,dir) ->
+    findup process.cwd(),"package.json", (err,dir) ->
       if err
         error_string =
           message:
-            'Unable to find package.json , make sure you are inside ngcli project'
+            "Unable to find package.json , make sure you are inside ngcli project"
           trace:
             err: err
         self._terminate error_string
         return
       else
-        isOldApp = path.join dir, 'node_modules/ng-browserify-transform/index.js'
+        isOldApp = path.join dir, "node_modules/ng-browserify-transform/index.js"
         if fs.existsSync isOldApp
           upgrade_link = self.lineup.colors.underline "http://amanvirk.me/upgrading-ngcli-to-v3"
           self.lineup.sticker.note(self.lineup.colors.yellow("You are running deprecated version of ngCli"))
@@ -114,22 +116,22 @@ class Helpers
       cb null, {hooks:self.hooks,tasks:self.tasks,commands:self.commands}
       return
     else
-      findup process.cwd(),'package.json', (err,dir) ->
+      findup process.cwd(),"package.json", (err,dir) ->
         if err
           error_string =
             message:
-              'Unable to find package.json , make sure you are inside ngcli project'
+              "Unable to find package.json , make sure you are inside ngcli project"
             trace:
               err: err
           self._terminate error_string
           return
         else
-          package_file = path.join dir,'package.json'
+          package_file = path.join dir,"package.json"
           pckg_json = require package_file
           ngAddons = pckg_json["ng-addons"]
           if _.size(ngAddons) > 0
-            _.each ngAddons, (value,key) ->
-              if value.indexOf('/') > -1
+            _.each ngAddons, (value) ->
+              if value.indexOf("/") > -1
                 addon_path = path.join dir,value
               else
                 addon_path = path.join dir,"/node_modules/"+value
@@ -143,7 +145,7 @@ class Helpers
             cb null, {hooks:_.flatten(self.hooks),tasks:_.flatten(self.tasks),commands:_.flatten(self.commands)}
             return
           else
-            cb '0 configured addons',null
+            cb "0 configured addons",null
             return
       return
 
