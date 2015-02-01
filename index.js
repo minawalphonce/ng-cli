@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 var CommandsParser = require("./lib/utils/commands-parser");
 var commands = new CommandsParser();
 
