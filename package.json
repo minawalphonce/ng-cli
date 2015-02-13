@@ -1,6 +1,6 @@
 {
   "name": "angcli",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "COMMAND LINE INTERFACE FOR ANGULAR APPS",
   "main": "index.js",
   "dependencies": {
