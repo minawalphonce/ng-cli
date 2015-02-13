@@ -5,10 +5,8 @@
   "main": "index.js",
   "dependencies": {
     "bluebird": "^2.6.2",
-    "broccoli": "^0.13.3",
     "findup": "^0.1.5",
     "inquirer": "^0.8.0",
-    "karma": "^0.12.31",
     "lineup": "^0.0.7",
     "lodash": "^2.4.1",
     "mkdirp": "^0.5.0",
