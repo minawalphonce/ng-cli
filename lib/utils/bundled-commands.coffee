@@ -7,8 +7,6 @@ fs = require "fs"
 inquirer = require "inquirer"
 shelljs = require "shelljs"
 findup = require "findup"
-karma = require "karma"
-  .server
 
 ###*
   @class BundledCommands
@@ -171,7 +169,13 @@ class BundledCommands
   ###
   buildApp: () ->
     shelljs.cd process.cwd()
-    shelljs.exec "node node_modules/ngcli-task-runner/index.js --build"
+    ###*
+      Make sure to use exec async by passing callback
+      as sync version will eat the entire CPU
+    ###
+    shelljs.exec "node node_modules/ngcli-task-runner/index.js --build", (code,output) ->
+      if code isnt 0
+        helpers.lineup.log.error output
 
 
   ###*
@@ -216,13 +220,25 @@ class BundledCommands
   ###
   serveApp: () ->
     shelljs.cd process.cwd()
-    shelljs.exec "node node_modules/ngcli-task-runner/index.js --serve"
+    ###*
+      Make sure to use exec async by passing callback
+      as sync version will eat the entire CPU
+    ###
+    shelljs.exec "node node_modules/ngcli-task-runner/index.js --serve", (code,output) ->
+      if code isnt 0
+        helpers.lineup.log.error output
 
   ###*
     Run karma unit tests
   ###
   karmaStart: () ->
     shelljs.cd process.cwd()
-    shelljs.exec "node node_modules/ngcli-task-runner/index.js --test"
+    ###*
+      Make sure to use exec async by passing callback
+      as sync version will eat the entire CPU
+    ###
+    shelljs.exec "node node_modules/ngcli-task-runner/index.js --test", (code,output) ->
+      if code isnt 0
+        helpers.lineup.log.error output
 
 module.exports = BundledCommands
