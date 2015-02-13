@@ -40,7 +40,7 @@ class Helpers
   ###
   clone: (name,toPath,cb) ->
     self = @
-    shelljs.exec "git clone #{name} #{toPath}" , (code,output) ->
+    shelljs.exec "git clone #{name} \"#{toPath}\"" , (code,output) ->
       if code is 0
         cb null,"cloned"
         return
