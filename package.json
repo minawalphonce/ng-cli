@@ -33,6 +33,6 @@
   "license": "ISC",
   "preferGlobal": "true",
   "bin": {
-    "ng": "index.js"
+    "ng1": "index.js"
   }
 }
